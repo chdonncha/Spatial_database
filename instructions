@@ -1,0 +1,28 @@
+upload table from a file
+
+psql -d your_db_name -f Your_path_to_the_file/county.sql
+
+
+make database postgis
+
+-- Enable PostGIS (includes raster)
+CREATE EXTENSION postgis;
+-- Enable Topology
+CREATE EXTENSION postgis_topology;
+-- Enable PostGIS Advanced 3D 
+-- and other geoprocessing algorithms
+-- sfcgal not available with all distributions
+CREATE EXTENSION postgis_sfcgal;
+-- fuzzy matching needed for Tiger
+CREATE EXTENSION fuzzystrmatch;
+-- rule based standardizer
+CREATE EXTENSION address_standardizer;
+-- example rule data set
+CREATE EXTENSION address_standardizer_data_us;
+-- Enable US Tiger Geocoder
+CREATE EXTENSION postgis_tiger_geocoder;
+
+
+transfer shape file into database
+
+ogr2ogr -update -append -f PostgreSQL PG:"dbname=pgis_ass_1 user=donncha password=pass123" '/home/donncha/College/SpatialDB/assignment/sql_files/cso_eds_data/cso_eds_data.dbf' -nln "electoraldivisions" -nlt PROMOTE_TO_MULTI

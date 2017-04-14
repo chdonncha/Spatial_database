@@ -1,0 +1,85 @@
+﻿
+Student Name:
+
+Student ID:
+
+Programme:
+
+
+Please provide all solutions inside this document and submit this document on the provided Webcourses space.
+Submission Deadline: 27 April 2017
+Normal late submission policy applies (see Webcourses main content area).
+
+Required for the solution are:
+Your code solution
+An explanation or discussion on alternatives
+A screenshot of the map result where applicable
+
+The following datasets should be used:
+Dubeds
+Roads
+Dublin_highway1
+Dubroads2
+Buildings_geodir
+Bus_stops
+Dublin_historical
+
+Question 1
+25 marks
+Write a query to display all buildings that are within 500 metres of Kevin Street College and are situated in Royal Exchange A.
+Write a query to display all of the Electoral Divisions that boarder Royal Exchange A to the east.
+Write a query to display the street with the most bus stops. You must use spatial operations or predicates in your solutions. 
+Write a query to find the number of roads enter or exit Royal Exchange A using dublin_highway1 and dubroads2. Do you get different results?
+Write a query to display all streets fully contained within Royal Exchange B. 
+Write a query to find the number archeological sites within 1Km of the street on which you live. 
+Write a query to display the Electoral Division that has the highest population density. Be sure to clearly identify the units used.
+Question 2
+25 marks
+From a routing perspective what is the difference between the table dublin_highway1 and the table dubroads2?
+Illustrate your anwer with a section from each table.
+Use the dubroads2 table to get the route and the length of that route from a street in your neighbourhood to Kevin Street. An additional weight should be added to the length where your route passes through a city centre ED. If you have no Dublin address then pick a street that is familiar to you. If pgRouting fails to find a route then select some street near your original source street and try again. 
+A table route representing a road network in Figure 1 was created in Postgres/PostGIS using following SQL statements: 
+CREATE TABLE route (gid serial PRIMARY KEY, source integer, target integer, length double precision); 
+SELECT AddGeometryColumn('route','the_geom','-1', 'MULTILINESTRING',2); 
+INSERT INTO route (the_geom) select ST_GeomFromText('MULTILINESTRING((10 0,10 5),(10 5,10 15),(10 15,10 20),(10 20, 10 30),(10 30, 10 35))',-1); INSERT INTO route (the_geom) select ST_GeomFromText('MULTILINESTRING((10 20, 20 20))',- 1); 
+INSERT INTO route (the_geom) select ST_GeomFromText('MULTILINESTRING((10 15, 0 15))',-1); 
+SELECT assign_vertex_id('route',0.001,'the_geom', 'gid'); UPDATE route SET length = length(the_geom); 
+
+Figure 1
+Using the newly created route table write the necessary SQL to find a route from A to B as shown above. If no route can be found redesign the table to facilitate routing. Note, you should retain the original geometry, but it does not have to be of type MULTILINESTRING. 
+Question 3
+25 marks
+Below is the SQL code to construct the map in Figure 2. The PostGIS20 topology extensions are used. 
+SET search_path TO public,topology; 
+-- If table or topology exists you can delete them with the following commands -- SELECT topology.DropTopology('toposchema1');
+-- TABLE public.topo1; 
+SELECT CreateTopology('toposchema1', 0, 1.0) 
+CREATE TABLE public.topo1 (id SERIAL PRIMARY KEY);
+SELECT AddTopoGeometryColumn('toposchema1', 'public', 'topo1', 'topogeom', 'LINESTRING'); 
+INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(0 0 , 100 0)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(100 0 , 110 50)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(110 50 , 100 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(100 100 , 0 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(100 0 , 200 0)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(200 0 , 200 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(200 100 , 100 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(0 0 , 0 100)'::geometry, 'toposchema1', 1, 1)); 
+
+Figure 2
+Use toposchema1.edge_data to answer the following queries. Write an SQL query that returns the edges that are shared by Face-1 and Face-2. 
+Write an SQL query that returns all faces shared by edge 3. Produce a map for each query showing your results in different colours. 
+Question 4
+25 marks
+For this question you will be assigned a theme from the CSO Census of 2006 for Dublin City. This is in the separate file attached to this assignment. The actual data must be extracted from the shapefile in the ZIP file cso_eds_data.7z. All the necessary files are in Webcourses. The overall goals of this question are: 
+		  To perform initial data analysis using a map, and pie chart map.  
+		  To calculate the Moran's I statistic (MI) for your theme.  
+		  To analyse the MI for your theme.  
+		  To calculate the Geographical Weighted Regression (GWR)  
+		  To analyse the GWR for your theme.  
+		  To compare GWR with ordinary least squares (OLS) 
+ For some themes gender or age may be significant. For other themes gender/age can 
+be ignored and summed. If in doubt as what theme to use please contact me.  
+Check your theme from in Your-CSO-Theme.xls and produce:  
+		  A choropleth map (similar to labs)  
+		  A pie chart map of your theme compared to the population (similar to labs )  
+		  The mean, mode, and standard deviation for your theme.  
+Present the R code, the map, a summary and any observations necessary for the 
+solution.
+Calculate and plot the Moran’ I statistic for the population. Calculate and plot the 
+Moran’ I statistic for your Theme. Make a local Moran I map for your 
+theme.  Comment on your result.  
+
+
