@@ -4,4 +4,4 @@ INSERT INTO route (the_geom) select ST_GeomFromText('MULTILINESTRING((10 0,10 5)
 INSERT INTO route (the_geom) select ST_GeomFromText('MULTILINESTRING((10 20, 20 20))', -1);
 INSERT INTO route (the_geom) select ST_GeomFromText('MULTILINESTRING((10 15, 0 15))', -1);
 SELECT pgr_createTopology('route', 0.001,'the_geom', 'gid');
-UPDATE route SET length = length(the_geom);
+UPDATE route SET length = ST_Length(the_geom);
