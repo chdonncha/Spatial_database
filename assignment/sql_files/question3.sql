@@ -1,0 +1,6 @@
+SET search_path TO public,topology; 
+-- If table or topology exists you can delete them with the following commands -- SELECT topology.DropTopology('toposchema1'); -- TABLE public.topo1; 
+SELECT CreateTopology('toposchema1', 0, 1.0);
+CREATE TABLE public.topo1 (id SERIAL PRIMARY KEY);
+SELECT AddTopoGeometryColumn('toposchema1', 'public', 'topo1', 'topogeom', 'LINESTRING'); 
+INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(0 0 , 100 0)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(100 0 , 110 50)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(110 50 , 100 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(100 100 , 0 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(100 0 , 200 0)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(200 0 , 200 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(200 100 , 100 100)'::geometry, 'toposchema1', 1, 1)); INSERT INTO topo1 (topogeom) VALUES (toTopoGeom('LINESTRING(0 0 , 0 100)'::geometry, 'toposchema1', 1, 1)); 

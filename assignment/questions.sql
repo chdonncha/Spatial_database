@@ -98,4 +98,22 @@ distinguish which roads a driver is allowed to use.
 
 */
 
+-- Question 3
+
+(
+	SELECT t.seq, t.edge, geom 
+	FROM topology.ST_GetFaceEdges('toposchema1', 1) 
+	AS t (seq, edge)
+	INNER JOIN toposchema1.edge 
+	AS e 
+	ON abs(t.edge) = e.edge_id
+) UNION
+(
+	SELECT t.seq, t.edge, geom 
+	FROM topology.ST_GetFaceEdges('toposchema1', 2) 
+	AS t (seq, edge)
+	INNER JOIN toposchema1.edge 
+	AS e 
+	ON abs(t.edge) = e.edge_id
+) 
 
