@@ -18,7 +18,7 @@ SELECT name FROM buildings_geodir WHERE st_dwithin (
 
 
 -- 3
-
+-- FIXME
 SELECT count(*) FROM stops WHERE st_dwithin (
 	(
 	
@@ -98,7 +98,21 @@ distinguish which roads a driver is allowed to use.
 
 */
 
+
+-- 4
+
+SELECT * FROM route
+JOIN
+(SELECT * FROM pgr_dijkstra('SELECT gid AS id, source, target, length AS cost
+FROM route',6, 4, false)) AS shortest_path
+ON
+route.gid =
+shortest_path.edge;
+
+
 -- Question 3
+
+-- 1
 
 (
 	SELECT t.seq, t.edge, geom 
@@ -117,3 +131,7 @@ distinguish which roads a driver is allowed to use.
 	ON abs(t.edge) = e.edge_id
 ) 
 
+-- 2 (change up)
+
+SELECT topo1.topogeom from topo1, topology.ST_GetFaceEdges('toposchema1', topo1.id) as te (seq, edge)
+WHERE te.edge = 3;
