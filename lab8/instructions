@@ -1,0 +1,14 @@
+check packages:
+(.packages())
+
+check libraries:
+library()
+
+list contents of specific package:
+ls(packagebase)
+
+show contents of a variable:
+view(<variable>)
+
+add title to diagram:
+title(main = "Lab 8")	

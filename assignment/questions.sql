@@ -135,3 +135,17 @@ shortest_path.edge;
 
 SELECT topo1.topogeom from topo1, topology.ST_GetFaceEdges('toposchema1', topo1.id) as te (seq, edge)
 WHERE te.edge = 3;
+
+
+-- Question 4
+
+-- 1
+-- FIXME
+
+library(plotrix)	
+plot(eireMap)	
+floating.pie(coordinates(eireMap)[1],coordinates(eireMap)[1,2],c(eireMap$RETSALE[1],	
+eireMap$INCOME[1]),radius=10, col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))	
+mypercent <- paste(round(100*(eireMap$RETSALE/eireMap$INCOME),1),"%")	
+text(coordinates(eireMap)+10, labels=mypercent, cex=0.5)
+

@@ -1,0 +1,14 @@
+library(spdep)	
+library(maptools)	
+library(RColorBrewer)	
+library(classInt)	
+
+setwd("~/College/SpatialDB/assignment/sql_files/cso_eds_data")
+
+eireMap <- readShapePoly("eire.shp"[1],ID="names", proj4string=CRS("+proj=utm +zone=30 
++units=km")) 
+names(eireMap) 
+factor(eireMap$pale) 
+eireMap$names 
+#The question mark gets help on a topic 
+?eire 

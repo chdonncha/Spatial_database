@@ -1,0 +1,42 @@
+library(spdep) 
+library(maptools) 
+library(RColorBrewer) 
+library(classInt) 
+ 
+setwd("~/College/SpatialDB/lab9/files") 
+eireMap <- readShapePoly("eire.shp"[1],ID="names", proj4string=CRS("+proj=utm +zone=30 
++units=km")) 
+names(eireMap) 
+factor(eireMap$pale) 
+eireMap$names 
+#The question mark gets help on a topic 
+?eire 
+ 
+# Some colours for the counties 
+colors = c("#F1EEF6", "#D4B9DA", "#C994C7", "#DF65B0", "#DD1C77", "#980043","#F1EEF6", "#D4B9DA", 
+"#C994C7", "#DF65B0", "#DD1C77", "#980043","#F1EEF6", "#D4B9DA", "#C994C7", "#DF65B0", "#DD1C77", 
+"#980043","#F1EEF6", "#D4B9DA", "#C994C7", "#DF65B0", "#DD1C77", "#980043","#F1EEF6", "#D4B9DA") 
+plot(eireMap, col=colors[eireMap$names]) 
+ 
+# colour in the Pale. The default 0,1 will give black and white 
+plot(eireMap) 
+color <- eireMap$pale+3 
+plot(eireMap, col=color) 
+ 
+# Get the neighbours of each county. 
+eire.nb <- poly2nb(eireMap) 
+# Examine contiguity  
+summary(eire.nb) 
+plot(eireMap) 
+plot(eire.nb, coordinates(eireMap), add=TRUE) 
+#Print county names 
+text(coordinates(eireMap), labels=as.character(eireMap$names), cex=0.4) 
+ 
+ 
+# Column A represents the percentage of sample with blood group A 
+# See http://en.wikipedia.org/wiki/Blood_type_distribution_by_country  
+#You can investigate the data in eire with: 
+summary(eireMap$A) 
+res <- eireMap$A 
+# A five-number summary description about a set of observations. 
+brks <- round(fivenum(eireMap$A), digits=2)
