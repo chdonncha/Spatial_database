@@ -30,3 +30,12 @@ cso.nb <- poly2nb(csoeds,queen = TRUE)
 cso.I <- moran.test(csoeds$T2_2WI, nb2listw(cso.nb)) 
 moran.plot(csoeds$T2_2WI,labels=csoeds$GEOGDESC,listw=nb2listw(cso.nb)) 
 title(paste("Map 1: Moran's I =",as.character(round(cso.I$estimate[1],2)))) 
+
+
+x <- rbind(matrix(rnorm(100,mean=0, sd = 1), ncol = 2), 
+matrix(rnorm(100, mean = 0, sd = 1), ncol = 2)) 
+colnames(x) <- c("x", "y") 
+(cl <- kmeans(x, 2)) 
+plot(x, col = csoeds$T2_2WI) 
+points(csoeds$T2_3T, col = 1:2, pch = 8, cex=2) 
+

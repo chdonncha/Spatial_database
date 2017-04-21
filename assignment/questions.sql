@@ -22,23 +22,23 @@ SELECT count(*) FROM stops WHERE st_dwithin (
 
 
 -- 4
--- FIXME
+
 SELECT count(*) FROM dubroads2 WHERE st_crosses (
 	(
-	SELECT ST_Transform (wkb_geometry, 29900) 
-	FROM electoraldivisions 
-	WHERE geogdesc =  'Royal Exchange A'
+	SELECT the_geom
+	FROM dubeds 
+	WHERE saps_label LIKE '%Royal Exchange A'
 	),
 dubroads2.the_geom
 );
 
 -- query: 44
--- FIXME
+
 SELECT count(*) FROM dublin_highway1 WHERE st_crosses (
 	(
-	SELECT ST_Transform (wkb_geometry, 29900) 
-	FROM electoraldivisions 
-	WHERE geogdesc =  'Royal Exchange A'
+	SELECT the_geom
+	FROM dubeds 
+	WHERE saps_label LIKE '%Royal Exchange A'
 	),
 dublin_highway1.the_geom
 );
@@ -47,12 +47,12 @@ dublin_highway1.the_geom
 
 
 -- 5
--- FIXME
+
 SELECT * FROM dubroads2 WHERE st_contains (
 	(
-	SELECT ST_Transform (wkb_geometry, 29900) 
-	FROM electoraldivisions 
-	WHERE geogdesc =  'Royal Exchange B'
+	SELECT the_geom
+	FROM dubeds 
+	WHERE saps_label LIKE '%Royal Exchange B'
 	),
 dubroads2.the_geom
 );
@@ -135,17 +135,6 @@ WHERE te.edge = 3;
 -- Question 4
 
 -- 1
--- FIXME
-
-
--- display all white irish colour coded
-
- plot(csoeds)
- lower = min(csoeds@data$"T2_2WI")
- upper = max(csoeds@data$"T2_2WI")
- intrv = (lower+upper)/8
- spplot(csoeds, "T2_2WI")
-
 
 -- choropleth map of white irish population
 
@@ -176,7 +165,7 @@ text(coordinates(csoeds)+10, labels=mypercent, cex=0.5)}
 
 
 -- 3
-
+-- FIXME
 
 
 -- 4
