@@ -2,7 +2,7 @@
 # --------------
 
 library(plotrix)	
-plot(csoeds)	
+plot(csoeds)
 
 #floating.pie(coordinates(csoeds)[1],coordinates(csoeds)[1,2],c(csoeds$T2_2WI[1], 
 #csoeds$T2_3T[1]),radius=10,  col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))
@@ -19,7 +19,12 @@ col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))
 text(coordinates(csoeds)+10, labels=mypercent, cex=0.5)}
 
 
-
+library(sp)	
+library(maptools)	
+gpclibPermit()	
+library(spdep)	
+library(spgwr)	
+library(RColorBrewer)
 
 cso.nb <- poly2nb(csoeds,queen = TRUE) 
 cso.I <- moran.test(csoeds$T2_2WI, nb2listw(cso.nb)) 

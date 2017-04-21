@@ -146,3 +146,52 @@ WHERE te.edge = 3;
  intrv = (lower+upper)/8
  spplot(csoeds, "T2_2WI")
 
+
+-- choropleth map of white irish population
+
+spplot(csoeds, "T2_2WI", main='Irish White Population')
+
+
+-- 2
+
+load pie chart
+--------------
+
+library(plotrix)	
+plot(csoeds)
+
+#floating.pie(coordinates(csoeds)[1],coordinates(csoeds)[1,2],c(csoeds$T2_2WI[1], 
+#csoeds$T2_3T[1]),radius=10,  col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))
+
+mypercent <- paste(round(100*(csoeds$T2_2WI/csoeds$T2_3T),1),"%") 
+text(coordinates(csoeds)+10, labels=mypercent, cex=0.5) 
+
+#for(i in 1:162){cat("iteration number", "->",i,"\n")} 	
+
+for(i in 1:162) { 
+floating.pie(coordinates(csoeds)[i],coordinates(csoeds)[i,2],c(csoeds$ 
+T2_2WI[i],csoeds$T2_3T[i]),radius=200,  
+col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff")) 
+text(coordinates(csoeds)+10, labels=mypercent, cex=0.5)}
+
+
+-- 3
+
+
+
+-- 4
+
+
+library(sp)	
+library(maptools)	
+gpclibPermit()	
+library(spdep)	
+library(spgwr)	
+library(RColorBrewer)
+
+cso.nb <- poly2nb(csoeds,queen = TRUE) 
+cso.I <- moran.test(csoeds$T2_2WI, nb2listw(cso.nb)) 
+moran.plot(csoeds$T2_2WI,labels=csoeds$GEOGDESC,listw=nb2listw(cso.nb)) 
+title(paste("Map 1: Moran's I =",as.character(round(cso.I$estimate[1],2)))) 
+
+
