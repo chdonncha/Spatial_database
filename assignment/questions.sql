@@ -5,12 +5,7 @@ SELECT name FROM buildings_geodir WHERE st_dwithin (
 		buildings_geodir.the_geom, 
 		(SELECT the_geom FROM buildings_geodir WHERE name = 'DIT Kevin Street'),
 		500
-	)
-	AND st_contains (
-		(SELECT ST_Transform (wkb_geometry, 29900) FROM electoraldivisions 
-		WHERE geogdesc =  'Royal Exchange A'),
-		buildings_geodir.the_geom
-	);
+);
 
 
 -- 2
@@ -27,7 +22,7 @@ SELECT count(*) FROM stops WHERE st_dwithin (
 
 
 -- 4
-
+-- FIXME
 SELECT count(*) FROM dubroads2 WHERE st_crosses (
 	(
 	SELECT ST_Transform (wkb_geometry, 29900) 
@@ -38,7 +33,7 @@ dubroads2.the_geom
 );
 
 -- query: 44
-
+-- FIXME
 SELECT count(*) FROM dublin_highway1 WHERE st_crosses (
 	(
 	SELECT ST_Transform (wkb_geometry, 29900) 
@@ -52,7 +47,7 @@ dublin_highway1.the_geom
 
 
 -- 5
-
+-- FIXME
 SELECT * FROM dubroads2 WHERE st_contains (
 	(
 	SELECT ST_Transform (wkb_geometry, 29900) 
@@ -142,10 +137,12 @@ WHERE te.edge = 3;
 -- 1
 -- FIXME
 
-library(plotrix)	
-plot(eireMap)	
-floating.pie(coordinates(eireMap)[1],coordinates(eireMap)[1,2],c(eireMap$RETSALE[1],	
-eireMap$INCOME[1]),radius=10, col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))	
-mypercent <- paste(round(100*(eireMap$RETSALE/eireMap$INCOME),1),"%")	
-text(coordinates(eireMap)+10, labels=mypercent, cex=0.5)
+
+-- display all white irish colour coded
+
+ plot(csoeds)
+ lower = min(csoeds@data$"T2_2WI")
+ upper = max(csoeds@data$"T2_2WI")
+ intrv = (lower+upper)/8
+ spplot(csoeds, "T2_2WI")
 

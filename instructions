@@ -27,4 +27,4 @@ transfer shape file into database
 
 ogr2ogr -update -append -f PostgreSQL PG:"dbname=pgis_ass_1 user=donncha password=pass123" '/home/donncha/College/SpatialDB/assignment/sql_files/cso_eds_data/cso_eds_data.dbf' -nln "electoraldivisions" -nlt PROMOTE_TO_MULTI
 
-ogr2ogr -update -append -f PostgreSQL PG:"dbname=postgis_lab9 user=donncha password=pass123" '/home/donncha/College/SpatialDB/assignment/sql_files/cso_eds_data/eire.dbf' -nln "electoraldivisions" -nlt PROMOTE_TO_MULTI
+ogr2ogr -update -append -f PostgreSQL PG:"dbname=postgis_lab9 user=donncha password=pass123" '/home/donncha/College/SpatialDB/lab9/files/eire.dbf' -nln "eire" -nlt PROMOTE_TO_MULTI

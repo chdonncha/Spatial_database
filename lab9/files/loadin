@@ -1,3 +1,4 @@
+gpclibPermit()
 library(spdep) 
 library(maptools) 
 library(RColorBrewer) 
@@ -40,3 +41,23 @@ summary(eireMap$A)
 res <- eireMap$A 
 # A five-number summary description about a set of observations. 
 brks <- round(fivenum(eireMap$A), digits=2)
+
+
+
+library(plotrix)	
+plot(eireMap)	
+floating.pie(coordinates(eireMap)[1],coordinates(eireMap)[1,2],c(eireMap$RETSALE[1],	
+eireMap$INCOME[1]),radius=10,		col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))	
+mypercent	<-	paste(round(100*(eireMap$RETSALE/eireMap$INCOME),1),"%")	
+text(coordinates(eireMap)+10,	labels=mypercent,	cex=0.5)	
+	
+	
+##	Here	is	a	loop	from	1	to	26	
+for(i	in	1:26){cat("iteration	number",	"->",i,"\n")}	
+	
+##	make	a	map	with	pie	chart	for	every	county	
+for(i	in	1:26)	{	
+floating.pie(coordinates(eireMap)[i],coordinates(eireMap)[i,2],c(eireMap$	
+RETSALE[i],eireMap$INCOME[i]),radius=12,		
+col=c("#ff0000","#80ff00","#00ffff","#44bbff","#8000ff"))	
+text(coordinates(eireMap)+10,	labels=mypercent,	cex=0.5)}	
