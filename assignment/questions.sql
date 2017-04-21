@@ -58,13 +58,22 @@ dubroads2.the_geom
 );
 
 
--- 6 NOT COMPLETE
+-- 6
 
 SELECT * FROM dublin_historical WHERE st_dwithin (
-		dublin_historical.the_geom, 
-		(SELECT the_geom FROM buildings_geodir WHERE name = 'DIT Kevin Street'),
-		1000
-	);
+	dublin_historical.the_geom, (
+			(
+	SELECT dr.the_geom FROM dubroads2 dr
+		JOIN dublin_highway1 hw ON ST_Equals (
+			dr.the_geom,
+			hw.the_geom
+		)
+	WHERE hw.name = 'Templeroan Park'
+	LIMIT 1
+	)
+),
+	1000
+);
 
 
 --7
@@ -93,6 +102,43 @@ distinguish which roads a driver is allowed to use.
 
 */
 
+-- 2
+
+-- 3 
+
+ALTER TABLE dubroads2 ADD column source integer;
+ALTER TABLE dubroads2 ADD column target integer;
+
+SELECT pgr_createTopology('dubroads2', 0.001, 'the_geom', 'gid')
+
+SELECT * FROM dubroads2
+	JOIN (
+	SELECT * FROM pgr_dijkstra('SELECT gid AS id, 
+	source, 
+	target, 
+	ST_Length(the_geom) AS cost
+	FROM dubroads2'
+		,(
+		SELECT dr.gid FROM dubroads2 dr
+			JOIN dublin_highway1 hw ON ST_Equals (
+				dr.the_geom,
+				hw.the_geom
+			)
+		WHERE hw.name = 'Kevin Street Lower'
+		), 
+		(
+		SELECT dr.gid FROM dubroads2 dr
+			JOIN dublin_highway1 hw ON ST_Equals (
+				dr.the_geom,
+				hw.the_geom
+			)
+		WHERE hw.name = 'Templeroan Park'
+		LIMIT 1
+		), 
+	false)) AS shortest_path
+ON
+dubroads2.gid =
+shortest_path.edge;		
 
 -- 4
 
@@ -109,6 +155,7 @@ shortest_path.edge;
 
 -- 1
 
+/*
 (
 	SELECT t.seq, t.edge, geom 
 	FROM topology.ST_GetFaceEdges('toposchema1', 1) 
@@ -125,6 +172,17 @@ shortest_path.edge;
 	AS e 
 	ON abs(t.edge) = e.edge_id
 ) 
+*/
+
+SELECT topology.GetNodeByPoint('toposchema1', point.geom, 1) FROM
+	topology.ST_GetFaceGeometry('toposchema1', 1) AS face_geom,
+	ST_dumppoints( 
+		face_geom.face_geom
+	) AS point
+	WHERE ST_Touches(
+	topology.ST_GetFaceGeometry('toposchema1', 2),
+	point.geom
+);
 
 -- 2 (change up)
 
@@ -133,6 +191,17 @@ WHERE te.edge = 3;
 
 
 -- Question 4
+
+-- setting up
+
+library(spdep)	
+library(maptools)	
+library(RColorBrewer)	
+library(classInt)	
+
+setwd("~/College/SpatialDB/assignment/sql_files/cso_eds_data")
+
+csoeds <- readShapePoly("cso_eds_data.shp") 
 
 -- 1
 

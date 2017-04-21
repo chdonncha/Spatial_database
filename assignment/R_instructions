@@ -5,8 +5,10 @@ library(classInt)
 
 setwd("~/College/SpatialDB/assignment/sql_files/cso_eds_data")
 
-csoeds <- readShapePoly("cso_eds_data.shp"[1],ID="T2_2WI", proj4string=CRS("+proj=utm +zone=30
-+units=km")) 
+#csoeds <- readShapePoly("cso_eds_data.shp"[1],ID="T2_2WI", proj4string=CRS("+proj=utm +zone=30
+#+units=km"))
+
+csoeds <- readShapePoly("cso_eds_data.shp") 
 
 names(csoeds) 
 factor(eireMap$pale) 
